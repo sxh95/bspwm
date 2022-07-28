@@ -1,0 +1,6 @@
+set nocompatible
+set mouse=a
+set clipboard=unamedplus
+set number relativenumber
+set encoding=utf-8
+syntax on

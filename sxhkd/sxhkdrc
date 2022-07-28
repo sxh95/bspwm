@@ -1,0 +1,159 @@
+
+# Terminal
+super + Return
+	kitty
+
+
+# Program launcher
+super + shift + d
+	rofi -show run -theme Monokai
+
+# Program launcher (Apps)
+super + d
+	rofi -show drun -theme Monokai -icon-theme "Tela-circle" -show-icons
+
+#######################################
+###### SALIR//APAGAR//REINICIAR #######
+#######################################
+
+
+# Salir // Reiniciar Bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+
+# Apagar PC
+super + alt + p
+	dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 org.freedesktop.login1.Manager.PowerOff boolean:true
+
+
+# Reiniciar PC
+super + ctrl + r
+	dbus-send --system --print-reply --dest=org.freedesktop.login1 /org/freedesktop/login1 org.freedesktop.login1.Manager.Reboot boolean:true
+
+
+#######################################
+########## ATAJOS DE VENTANA ##########
+#######################################
+
+
+# Cerrar Ventana
+super + q
+        bspc node -{c}
+
+
+# Alternar entre ventana grande o mosaico
+super + m
+         bspc desktop -l next
+
+
+
+
+# Minimizar/Maximizar Ventana
+super + {g,v}
+	{bspc node -g hidden,bspc node $(bspc query -N -n .hidden | tail -n1) -g hidden=off}
+
+
+# Expandir/Contraer Ventana Mosaico
+super + ctrl + {Left, Down, Up, Right}
+        bspc node -z {left -20 0 || bspc node -z right -20 0, \
+        bottom 0 20 || bspc node -z top 0 20,\
+        top 0 -20 || bspc node -z bottom 0 -20,\
+        right 20 0 || bspc node -z left 20 0}
+
+
+
+#########################################
+########## ESTADO DE VENTANAS ###########
+#########################################
+
+
+# Ventana en pantalla completa
+super + f
+	bspc node -t {fullscreen, tiled}
+
+
+# Ventana flotante
+super + s
+	bspc node -t {floating, tiled}
+
+
+# Ventana pseudo mosaico
+super + p
+	bspc node -t {pseudo_tiled, tiled}
+
+
+
+#######################################
+####### ENFOCAR//INTERCAMBIAR #########
+#######################################
+
+
+# Dividir ventana de manera horizontal//vertical
+super + h
+        bspc node @/ --flip horizontal && bspc node @/ -R 90
+
+
+# Mover de posicion la ventana
+super + shift + {Left,Down,Up,Right}
+	bspc node -{s} {west,south,north,east}
+
+
+# Enfocar ventana
+super + {Left,Down,Up,Right}
+	bspc node -{f} {west,south,north,east}
+
+
+# TAB
+super + {grave,Tab}
+	bspc node -f {next,prev}.local.!hidden.window
+
+
+# Enviar ventana enfocada al escritorio seleccionado
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+
+# Moverse junto con ventana enfocada a escritorio seleccionado
+super + alt + {1-9}
+    id=$(bspc query -N -n); bspc node -d ^{1-9}; bspc node -f ${id}
+
+
+
+
+
+#######################################
+####### CONTROL DE VOLUMEN ###########
+#######################################
+
+
+
+# Volume control
+XF86AudioLowerVolume
+        amixer set Master 5%-
+XF86AudioRaiseVolume
+        amixer set Master 5%+
+XF86AudioMute
+        amixer set Master toggle
+
+
+
+#######################################
+####### CONTROL DE BRILLO ### #########
+#######################################
+
+
+# Brightness control
+XF86MonBrightnessDown
+        sudo xbacklight -dec 5
+XF86MonBrightnessUp
+        sudo xbacklight -inc 5
+
+#######################################
+####### BLOQUEO DE PANTALLA   #########
+#######################################
+
+
+# lock screen
+super + l
+        betterlockscreen -l
